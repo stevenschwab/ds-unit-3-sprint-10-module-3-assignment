@@ -14,9 +14,7 @@ DBNAME = os.getenv("MONGODB_NAME")
 
 # open connection to MongoDB
 def create_mdb_conn(user, password, dbname, collection_name):
-    client = pymongo.MongoClient(f'''mongodb+srv://{user}:{password}
-                                 @ds-unit-3-sprint-10-mod.pxenxpb.mongodb.net/{dbname}
-                                 ?retryWrites=true&w=majority&appName=ds-unit-3-sprint-10-module-3''')
+    client = pymongo.MongoClient(f"mongodb+srv://{user}:{password}@ds-unit-3-sprint-10-mod.pxenxpb.mongodb.net/{dbname}?retryWrites=true&w=majority&appName=ds-unit-3-sprint-10-module-3")
     # db we want to connect to
     db = client[dbname]
     # create the collection so we can insert into it
@@ -24,6 +22,9 @@ def create_mdb_conn(user, password, dbname, collection_name):
     return db
 
 def char_inv_creation(mongo_db, character_inv_list):
+    # drop anything that is already in the collection
+    mongo_db.character_inventory.drop()
+    # add data to collection
     for char_inv in character_inv_list:
         char_inv_doc = {
             'character_id': char_inv[1],
@@ -32,6 +33,9 @@ def char_inv_creation(mongo_db, character_inv_list):
         mongo_db.character_inventory.insert_one(char_inv_doc)
 
 def armory_item_creation(mongo_db, armory_item_list):
+    # drop anything that is already in the collection
+    mongo_db.armory_item.drop()
+    # add data to collection
     for arm_item in armory_item_list:
         arm_item_doc = {
             'item_id': arm_item[0],
@@ -42,6 +46,9 @@ def armory_item_creation(mongo_db, armory_item_list):
         mongo_db.armory_item.insert_one(arm_item_doc)
 
 def armory_weapon_creation(mongo_db, armory_weapon_list):
+    # drop anything that is already in the collection
+    mongo_db.armory_weapon.drop()
+    # add data to collection
     for arm_weapon in armory_weapon_list:
         arm_weapon_doc = {
             'item_ptr_id': arm_weapon[0],
@@ -51,6 +58,9 @@ def armory_weapon_creation(mongo_db, armory_weapon_list):
 
 # create a document and insert into mongo
 def char_doc_creation(mongo_db, character_list):
+    # drop anything that is already in the collection
+    mongo_db.characters.drop()
+    # add data to collection
     for char in character_list:
         #find items and weapons for the character
         char_inventory = list(mongo_db.character_inventory.find({ 'character_id': char[0] }))
