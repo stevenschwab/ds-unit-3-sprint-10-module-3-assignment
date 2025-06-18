@@ -14,7 +14,9 @@ DBNAME = os.getenv("MONGODB_NAME")
 
 # open connection to MongoDB
 def create_mdb_conn(user, password, dbname, collection_name):
-    client = pymongo.MongoClient(f"mongodb+srv://{user}:{password}@ds-unit-3-sprint-10-mod.pxenxpb.mongodb.net/{dbname}?retryWrites=true&w=majority&appName=ds-unit-3-sprint-10-module-3")
+    client = pymongo.MongoClient(f'''mongodb+srv://{user}:{password}
+                                 @ds-unit-3-sprint-10-mod.pxenxpb.mongodb.net/{dbname}
+                                 ?retryWrites=true&w=majority&appName=ds-unit-3-sprint-10-module-3''')
     # db we want to connect to
     db = client[dbname]
     # create the collection so we can insert into it
